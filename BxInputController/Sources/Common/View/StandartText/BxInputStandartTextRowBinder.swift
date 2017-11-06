@@ -57,7 +57,7 @@ where Cell : UITableViewCell, Cell : BxInputFieldCell
     }
     
     /// event when value is changed. Need reload this in inherited classes
-    open func valueChanged(valueTextField: UITextField) {
+    @objc open func valueChanged(valueTextField: UITextField) {
         // empty
     }
     
@@ -94,7 +94,7 @@ where Cell : UITableViewCell, Cell : BxInputFieldCell
     open func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
     {
         if let text = textField.text,
-            range.location == text.characters.count && string == " "
+            range.location == text.count && string == " "
         {
             textField.text = text + "\u{00a0}"
             return false

@@ -76,7 +76,7 @@ open class BxInputStandartErrorRowDecorator : BxInputRowDecorator {
                     placeholder = binder.rowData.placeholder
                 }
                 if let placeholder = placeholder {
-                    cell.valueTextField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName : color.withAlphaComponent(0.3)])
+                    cell.valueTextField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedStringKey.foregroundColor : color.withAlphaComponent(0.3)])
                 }
             }
             if let subtitleLabel = cell.subtitleLabel {

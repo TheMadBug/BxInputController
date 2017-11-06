@@ -99,9 +99,7 @@ open class BxInputSelectorPicturesLibraryDataSource : NSObject {
     
     internal func backCamera() -> AVCaptureDevice?
     {
-        guard let devices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as? [AVCaptureDevice] else {
-            return nil
-        }
+        let devices = AVCaptureDevice.devices(for: AVMediaType.video)
         for device in devices {
             if device.position == .back {
                 return device
@@ -117,9 +115,9 @@ open class BxInputSelectorPicturesLibraryDataSource : NSObject {
                 return
             }
             let captureSession = AVCaptureSession()
-            captureSession.sessionPreset = AVCaptureSessionPresetHigh
+            captureSession.sessionPreset = AVCaptureSession.Preset.high
             let captureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-            captureVideoPreviewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+            captureVideoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
             do {
                 guard let device = self?.backCamera()  else
                 {

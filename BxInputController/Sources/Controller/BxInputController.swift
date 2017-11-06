@@ -19,6 +19,49 @@ import BxObjC
 open class BxInputController : UIViewController
 {
     
+    /// This need after probably controller show/hide keyboard. For example in viewWillAppear
+    public func registerKeyboardNotification()
+    {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShown), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    /// This need after probably controller show/hide keyboard. For example in viewDidDisappear
+    public func unregisterKeyboardNotification()
+    {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    
+    @objc internal func keyboardWillShown(aNotification: Notification)
+    {
+        if let data = aNotification.userInfo {
+            keyboardWillChange(isShowing: true, data: data)
+        }
+    }
+    
+    @objc internal func keyboardWillHide(aNotification: Notification)
+    {
+        if let data = aNotification.userInfo {
+            keyboardWillChange(isShowing: false, data: data)
+        }
+    }
+    
+    @objc private func keyboardWillChange(isShowing: Bool, data: [AnyHashable: Any])
+    {
+        var keyBoardRect = getKeyBoardRect(data: data)
+        keyBoardRect = view.convert(keyBoardRect, from: nil)
+        keyboardWillChange(isShowing: isShowing, frame: keyBoardRect)
+    }
+    
+    private func getKeyBoardRect(data: [AnyHashable: Any]) -> CGRect{
+        if let frameInfo = data[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            return frameInfo.cgRectValue
+        }
+        return CGRect()
+    }
+    
     // MARK: - Fields
     
     /// settings of visual showing
@@ -133,7 +176,7 @@ open class BxInputController : UIViewController
     
     /// event when keyboard will show or hide.
     /// - parameter frame: frame of keyboard to view of controller
-    override open func keyboardWillChange(isShowing: Bool, frame: CGRect)
+    open func keyboardWillChange(isShowing: Bool, frame: CGRect)
     {
         contentRect = self.view.bounds
         if isShowing {

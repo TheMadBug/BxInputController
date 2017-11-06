@@ -22,7 +22,7 @@ extension UITextField {
         if let placeholderText = placeholderText,
             let color = color
         {
-            attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSForegroundColorAttributeName : color])
+            attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedStringKey.foregroundColor : color])
         } else {
             attributedPlaceholder = nil
             placeholder = placeholderText
